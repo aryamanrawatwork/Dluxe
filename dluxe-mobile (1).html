@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D. LUXE MOBILE — Mastery in Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0a0a0a;
+  --charcoal: #121212;
+  --charcoal-light: #1a1a1a;
+  --card: #161616;
+  --gold: #c9a84c;
+  --gold-light: #e2c068;
+  --gold-dim: #8a6f2e;
+  --silver: #9ea8b3;
+  --white: #f5f0eb;
+  --white-dim: rgba(245,240,235,0.6);
+  --white-faint: rgba(245,240,235,0.08);
+  --border: rgba(201,168,76,0.18);
+  --border-subtle: rgba(245,240,235,0.07);
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSOR */
+.cursor {
+  width: 10px; height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease, background 0.2s;
+  mix-blend-mode: normal;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(201,168,76,0.5);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.35s cubic-bezier(.17,.67,.5,1), opacity 0.2s;
+}
+.cursor.expanded { transform: scale(3); background: rgba(201,168,76,0.2); }
+.cursor-ring.expanded { transform: scale(1.5) translate(-33%, -33%); opacity: 0; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 28px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.4s, padding 0.4s;
+}
+nav.scrolled {
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(20px);
+  padding: 18px 48px;
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.12em;
+  color: var(--white);
+}
+.nav-logo span { color: var(--gold); }
+.nav-links {
+  display: flex; gap: 40px;
+  list-style: none;
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--white-dim);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 10px 26px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all 0.3s;
+}
+.nav-cta:hover {
+  background: var(--gold);
+  color: var(--black);
+}
+
+/* HERO */
+#hero {
+  position: relative;
+  height: 100vh; min-height: 700px;
+  display: flex; align-items: flex-end;
+  overflow: hidden;
+}
+.hero-video-wrap {
+  position: absolute; inset: 0;
+  background: var(--black);
+  overflow: hidden;
+}
+.hero-video-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(201,168,76,0.07) 0%, transparent 60%),
+    linear-gradient(160deg, #0d0d0d 0%, #111 40%, #0a0a0a 100%);
+}
+/* Animated grain */
+.hero-grain {
+  position: absolute; inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  animation: grainShift 0.8s steps(2) infinite;
+}
+@keyframes grainShift {
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(-2px, 3px); }
+  50%  { transform: translate(4px, -1px); }
+  75%  { transform: translate(-3px, -3px); }
+  100% { transform: translate(2px, 2px); }
+}
+
+/* Barbershop pole animated lines */
+.hero-lines {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  opacity: 0.04;
+}
+.hero-lines::before {
+  content: '';
+  position: absolute;
+  inset: -200%;
+  background: repeating-linear-gradient(
+    -55deg,
+    transparent,
+    transparent 60px,
+    rgba(201,168,76,1) 60px,
+    rgba(201,168,76,1) 62px
+  );
+  animation: slideLines 18s linear infinite;
+}
+@keyframes slideLines {
+  from { transform: translateX(0); }
+  to   { transform: translateX(300px); }
+}
+
+.hero-scissor-deco {
+  position: absolute;
+  right: 7%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22vw;
+  color: rgba(201,168,76,0.04);
+  font-family: 'Anton', sans-serif;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 48px 80px;
+  max-width: 900px;
+}
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 1s 0.3s forwards;
+}
+.hero-eyebrow span {
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.eyebrow-line {
+  width: 48px; height: 1px;
+  background: var(--gold);
+}
+
+.hero-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(3.5rem, 9vw, 8.5rem);
+  line-height: 0.93;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeUp 1s 0.5s forwards;
+}
+.hero-title .gold { color: var(--gold); }
+.hero-title .thin {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--white-dim);
+  display: block;
+  font-size: 0.55em;
+  letter-spacing: 0.08em;
+  margin-top: 8px;
+}
+
+.hero-sub {
+  margin-top: 32px;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--white-dim);
+  max-width: 440px;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 1s 0.7s forwards;
+}
+
+.hero-cta-row {
+  margin-top: 44px;
+  display: flex; gap: 20px; align-items: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 1s 0.9s forwards;
+}
+.btn-primary {
+  background: var(--gold);
+  color: var(--black);
+  border: none;
+  padding: 16px 40px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: none;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute; top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,0.15);
+  transition: left 0.4s;
+}
+.btn-primary:hover::before { left: 100%; }
+.btn-primary:hover { box-shadow: 0 0 40px rgba(201,168,76,0.4); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--white-dim);
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: none;
+  text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+  transition: color 0.3s;
+}
+.btn-ghost:hover { color: var(--white); }
+.btn-ghost .arrow {
+  width: 28px; height: 1px;
+  background: currentColor;
+  position: relative;
+  transition: width 0.3s;
+}
+.btn-ghost:hover .arrow { width: 44px; }
+.btn-ghost .arrow::after {
+  content: '';
+  position: absolute; right: 0; top: -3px;
+  width: 7px; height: 7px;
+  border-right: 1px solid currentColor;
+  border-top: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.hero-bottom-bar {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.3;
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  right: 48px; bottom: 80px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  opacity: 0;
+  animation: fadeUp 1s 1.2s forwards;
+}
+.scroll-line {
+  width: 1px; height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--gold));
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.scroll-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  writing-mode: vertical-rl;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* SECTION COMMONS */
+section { padding: 120px 48px; }
+.section-label {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 16px;
+}
+.section-label span {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.label-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.65rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.1em;
+}
+.section-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.section-title .italic {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--gold);
+}
+.gold-line {
+  width: 60px; height: 2px;
+  background: var(--gold);
+  margin: 28px 0;
+}
+
+/* REVEAL ANIMATIONS */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* MARQUEE */
+.marquee-section {
+  padding: 0;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--charcoal-light);
+}
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+  padding: 20px 0;
+}
+.marquee-track span {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.25em;
+  color: var(--gold-dim);
+  padding: 0 40px;
+}
+.marquee-track .dot {
+  color: var(--gold);
+  padding: 0;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ABOUT */
+#about {
+  background: var(--charcoal);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.about-portrait {
+  position: relative;
+}
+.portrait-frame {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--charcoal-light);
+}
+.portrait-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 12px;
+  background: linear-gradient(145deg, #181818, #111);
+}
+.portrait-icon {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  color: var(--gold-dim);
+  background: rgba(201,168,76,0.05);
+}
+.portrait-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+}
+.portrait-corner {
+  position: absolute;
+  width: 28px; height: 28px;
+  border-color: var(--gold);
+  border-style: solid;
+}
+.portrait-corner.tl { top: -8px; left: -8px; border-width: 2px 0 0 2px; }
+.portrait-corner.br { bottom: -8px; right: -8px; border-width: 0 2px 2px 0; }
+
+.portrait-badge {
+  position: absolute;
+  bottom: -20px; right: -20px;
+  width: 120px; height: 120px;
+  background: var(--gold);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px;
+}
+.badge-num {
+  font-family: 'Anton', sans-serif;
+  font-size: 2.2rem;
+  color: var(--black);
+  line-height: 1;
+}
+.badge-text {
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.6);
+  text-align: center;
+}
+
+.about-text { }
+.about-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  color: var(--white);
+  margin: 24px 0 32px;
+  border-left: 2px solid var(--gold);
+  padding-left: 24px;
+}
+.about-body {
+  font-size: 0.9rem;
+  line-height: 2;
+  color: var(--white-dim);
+  margin-bottom: 40px;
+}
+.stat-row {
+  display: flex; gap: 40px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 32px;
+}
+.stat { }
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+.stat-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  margin-top: 4px;
+}
+
+/* MENU */
+#menu {
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+#menu::before {
+  content: 'MENU';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Anton', sans-serif;
+  font-size: 22vw;
+  color: rgba(201,168,76,0.03);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 64px;
+  position: relative;
+}
+.menu-card {
+  background: var(--card);
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.4s, transform 0.4s;
+  cursor: none;
+}
+.menu-card::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(.17,.67,.5,1);
+}
+.menu-card:hover { border-color: var(--border); transform: translateY(-4px); }
+.menu-card:hover::before { transform: scaleX(1); }
+
+.menu-card.featured {
+  background: linear-gradient(145deg, #1c1a14, #141210);
+  border-color: var(--gold-dim);
+}
+.menu-card.featured::after {
+  content: 'MOST POPULAR';
+  position: absolute; top: 20px; right: -28px;
+  background: var(--gold);
+  color: var(--black);
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  padding: 5px 40px;
+  transform: rotate(45deg);
+}
+
+.menu-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.2em;
+  margin-bottom: 24px;
+}
+.menu-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.menu-desc {
+  font-size: 0.78rem;
+  line-height: 1.8;
+  color: var(--white-dim);
+  margin-bottom: 36px;
+}
+.menu-price-row {
+  display: flex; align-items: baseline; justify-content: space-between;
+}
+.menu-price {
+  font-family: 'Anton', sans-serif;
+  font-size: 2.4rem;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+}
+.menu-price sup {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  vertical-align: super;
+}
+.menu-time {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+}
+.menu-disclaimer {
+  margin-top: 40px;
+  padding: 20px 28px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; gap: 16px;
+  background: rgba(201,168,76,0.03);
+}
+.disclaimer-icon {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.disclaimer-text {
+  font-size: 0.72rem;
+  color: var(--white-dim);
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+.disclaimer-text strong { color: var(--gold); font-weight: 500; }
+
+/* GALLERY */
+#gallery {
+  background: var(--charcoal);
+  padding-bottom: 80px;
+}
+.before-after-section {
+  margin-top: 64px;
+  margin-bottom: 64px;
+}
+.before-after-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.slider-wrap {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: none;
+}
+.slider-before,
+.slider-after {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.slider-before {
+  background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
+}
+.slider-after {
+  background: linear-gradient(135deg, #1c1a10 0%, #141200 100%);
+  clip-path: inset(0 50% 0 0);
+  transition: clip-path 0s;
+}
+.slide-placeholder {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  pointer-events: none;
+}
+.slide-face {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+}
+.slide-tag {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border: 1px solid;
+}
+.slider-before .slide-tag { border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.3); }
+.slider-after .slide-tag { border-color: var(--gold); color: var(--gold); }
+
+.slider-handle {
+  position: absolute; top: 0; bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: var(--gold);
+  transform: translateX(-50%);
+  cursor: none;
+  z-index: 10;
+}
+.slider-knob {
+  position: absolute; top: 50%;
+  left: 50%; transform: translate(-50%, -50%);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(201,168,76,0.5);
+}
+.slider-knob svg { width: 18px; height: 18px; fill: var(--black); }
+.slider-labels {
+  position: absolute; top: 16px; left: 0; right: 0;
+  display: flex; justify-content: space-between;
+  padding: 0 20px;
+  pointer-events: none;
+  z-index: 5;
+}
+.slider-labels span {
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  background: rgba(0,0,0,0.6);
+  color: var(--white-dim);
+}
+
+/* MASONRY GALLERY */
+.masonry {
+  columns: 3;
+  column-gap: 12px;
+  margin-top: 48px;
+}
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: none;
+}
+.masonry-item:hover .masonry-overlay { opacity: 1; }
+.masonry-img {
+  width: 100%;
+  aspect-ratio: var(--ratio);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.5s ease;
+}
+.masonry-item:hover .masonry-img { transform: scale(1.04); }
+.masonry-overlay {
+  position: absolute; inset: 0;
+  background: rgba(201,168,76,0.08);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex; align-items: center; justify-content: center;
+}
+.masonry-overlay-text {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 8px 20px;
+}
+
+/* BOOKING */
+#booking {
+  background: var(--black);
+  text-align: center;
+}
+.booking-sub {
+  font-size: 0.85rem;
+  color: var(--white-dim);
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+  max-width: 480px;
+  margin: 0 auto 64px;
+}
+.booking-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.booking-tile {
+  background: var(--card);
+  border: 1px solid var(--border-subtle);
+  padding: 56px 32px;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 20px;
+  cursor: none;
+  transition: all 0.4s;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+.booking-tile::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(201,168,76,0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.booking-tile:hover { border-color: var(--gold-dim); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+.booking-tile:hover::before { opacity: 1; }
+
+.tile-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  background: rgba(201,168,76,0.05);
+  transition: border-color 0.3s, background 0.3s;
+}
+.booking-tile:hover .tile-icon {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.12);
+}
+.tile-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.tile-desc {
+  font-size: 0.72rem;
+  color: var(--white-dim);
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+  text-align: center;
+}
+.tile-arrow {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 8px;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  transform: translateY(6px);
+}
+.booking-tile:hover .tile-arrow { opacity: 1; transform: translateY(0); }
+
+/* FOOTER */
+footer {
+  background: var(--charcoal);
+  border-top: 1px solid var(--border);
+  padding: 80px 48px 40px;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 60px;
+  padding-bottom: 60px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 40px;
+}
+.footer-brand-logo {
+  font-family: 'Anton', sans-serif;
+  font-size: 2.5rem;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.footer-brand-logo span { color: var(--gold); }
+.footer-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--white-dim);
+  margin-bottom: 28px;
+}
+.footer-service-area {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--white-dim);
+  line-height: 1.8;
+}
+.footer-service-area strong { color: var(--gold); font-weight: 500; display: block; margin-bottom: 4px; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; }
+
+.footer-col-title {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 12px; }
+.footer-links a {
+  text-decoration: none;
+  font-size: 0.78rem;
+  color: var(--white-dim);
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--white); }
+
+.social-row {
+  display: flex; gap: 16px;
+  margin-top: 32px;
+}
+.social-link {
+  width: 40px; height: 40px;
+  border: 1px solid var(--border-subtle);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  color: var(--white-dim);
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.social-link::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--gold);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.3s;
+}
+.social-link:hover { color: var(--black); border-color: var(--gold); }
+.social-link:hover::before { transform: scaleY(1); }
+.social-link span { position: relative; z-index: 1; }
+
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-copy {
+  font-size: 0.62rem;
+  color: var(--white-dim);
+  letter-spacing: 0.08em;
+  opacity: 0.5;
+}
+.footer-legal {
+  display: flex; gap: 24px;
+}
+.footer-legal a {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--white-dim);
+  text-decoration: none;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+.footer-legal a:hover { opacity: 0.8; }
+
+/* STICKY BOOK NOW */
+.sticky-cta {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.4s, transform 0.4s;
+  pointer-events: none;
+}
+.sticky-cta.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.sticky-btn {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--gold);
+  color: var(--black);
+  padding: 14px 36px;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: none;
+  text-decoration: none;
+  box-shadow: 0 8px 40px rgba(201,168,76,0.35);
+  white-space: nowrap;
+}
+.sticky-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--black);
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.4); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 20px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  section { padding: 80px 24px; }
+  #about { grid-template-columns: 1fr; gap: 48px; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .booking-tiles { grid-template-columns: 1fr; }
+  .masonry { columns: 2; }
+  .footer-top { grid-template-columns: 1fr; gap: 40px; }
+  .hero-content { padding: 0 24px 60px; }
+  .hero-scroll-hint { display: none; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
+@media (max-width: 600px) {
+  .masonry { columns: 1; }
+  .menu-card.featured::after { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo"><span>D.</span> LUXE MOBILE</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#booking">Book</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Secure Your Slot</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-video-wrap">
+    <div class="hero-video-bg"></div>
+    <div class="hero-grain"></div>
+    <div class="hero-lines"></div>
+  </div>
+  <div class="hero-scissor-deco">D</div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span>Premium Mobile Barbering</span>
+    </div>
+    <h1 class="hero-title">
+      Mastery<br>in <span class="gold">Motion.</span>
+      <span class="thin">Precision at Your Door.</span>
+    </h1>
+    <p class="hero-sub">The executive suite comes to you. No waiting rooms. No compromises. Just craft.</p>
+    <div class="hero-cta-row">
+      <a href="#booking" class="btn-primary">Secure Your Slot</a>
+      <a href="#menu" class="btn-ghost">View Services <span class="arrow"></span></a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <div class="scroll-line"></div>
+    <span class="scroll-label">Scroll</span>
+  </div>
+  <div class="hero-bottom-bar"></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee">
+    <span>THE EXECUTIVE SUITE ON WHEELS</span><span class="dot">✦</span>
+    <span>PRECISION FADES</span><span class="dot">✦</span>
+    <span>BEARD SCULPTURE</span><span class="dot">✦</span>
+    <span>MOBILE LUXURY</span><span class="dot">✦</span>
+    <span>BY APPOINTMENT ONLY</span><span class="dot">✦</span>
+    <span>THE SHARPEST FINISH IN THE CITY</span><span class="dot">✦</span>
+    <span>THE EXECUTIVE SUITE ON WHEELS</span><span class="dot">✦</span>
+    <span>PRECISION FADES</span><span class="dot">✦</span>
+    <span>BEARD SCULPTURE</span><span class="dot">✦</span>
+    <span>MOBILE LUXURY</span><span class="dot">✦</span>
+    <span>BY APPOINTMENT ONLY</span><span class="dot">✦</span>
+    <span>THE SHARPEST FINISH IN THE CITY</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-portrait reveal">
+    <div class="portrait-frame">
+      <div class="portrait-placeholder">
+        <div class="portrait-icon">✂</div>
+        <span class="portrait-label">Professional Portrait</span>
+      </div>
+      <div class="portrait-corner tl"></div>
+      <div class="portrait-corner br"></div>
+    </div>
+    <div class="portrait-badge">
+      <span class="badge-num">7+</span>
+      <span class="badge-text">Years of<br>Mastery</span>
+    </div>
+  </div>
+  <div class="about-text">
+    <div class="section-label reveal">
+      <span class="label-num">01</span>
+      <span>The Architect</span>
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">The Man<br>Behind <span class="italic">the Cut</span></h2>
+    <div class="gold-line reveal reveal-delay-2"></div>
+    <blockquote class="about-quote reveal reveal-delay-2">"Every fade is a signature. Every client deserves elite treatment — wherever they are."</blockquote>
+    <p class="about-body reveal reveal-delay-3">D. Luxe isn't just a haircut; it's a curated grooming experience brought to your doorstep. Founded by D, we prioritize craft, convenience, and the sharpest finish in the city. No more adjusting your schedule to fit the shop. The shop adjusts to you.</p>
+    <div class="stat-row reveal reveal-delay-4">
+      <div class="stat">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Clients Served</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Mobile Service</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">5★</div>
+        <div class="stat-label">Avg. Rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="section-label reveal">
+    <span class="label-num">02</span>
+    <span>The Offerings</span>
+  </div>
+  <h2 class="section-title reveal reveal-delay-1">The <span class="italic">Menu</span></h2>
+  <div class="gold-line reveal reveal-delay-2"></div>
+
+  <div class="menu-grid reveal reveal-delay-2">
+    <div class="menu-card">
+      <div class="menu-num">No. 01</div>
+      <div class="menu-name">The Signature Fade</div>
+      <p class="menu-desc">Our flagship cut. Precision-tapered, immaculately blended. A clean edge that speaks before you do.</p>
+      <div class="menu-price-row">
+        <div class="menu-price"><sup>$</sup>60</div>
+        <div class="menu-time">~45 Min</div>
+      </div>
+    </div>
+    <div class="menu-card featured">
+      <div class="menu-num">No. 02</div>
+      <div class="menu-name">The Full Executive</div>
+      <p class="menu-desc">Hair + Beard + Hot Towel Treatment. The complete experience. Reserved for those who settle for nothing less.</p>
+      <div class="menu-price-row">
+        <div class="menu-price"><sup>$</sup>90</div>
+        <div class="menu-time">~75 Min</div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-num">No. 03</div>
+      <div class="menu-name">Beard Sculpture</div>
+      <p class="menu-desc">Line-up, shape, and hot towel finish. Architecture for your face. A beard that means business.</p>
+      <div class="menu-price-row">
+        <div class="menu-price"><sup>$</sup>40</div>
+        <div class="menu-time">~30 Min</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-disclaimer reveal reveal-delay-3">
+    <div class="disclaimer-icon">★</div>
+    <p class="disclaimer-text"><strong>Mobile Convenience Fee:</strong> A nominal travel fee may apply based on location — a small premium for the luxury of your time. All fees disclosed at booking. We come to you, so you never have to wait.</p>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-label reveal">
+    <span class="label-num">03</span>
+    <span>The Vault</span>
+  </div>
+  <h2 class="section-title reveal reveal-delay-1">Fresh <span class="italic">Cuts</span></h2>
+  <div class="gold-line reveal reveal-delay-2"></div>
+
+  <div class="before-after-section reveal reveal-delay-2">
+    <p class="before-after-label">Before & After — Drag to Compare</p>
+    <div class="slider-wrap" id="sliderWrap">
+      <div class="slider-before">
+        <div class="slide-placeholder">
+          <div class="slide-face">👤</div>
+          <span class="slide-tag">Before</span>
+        </div>
+      </div>
+      <div class="slider-after" id="sliderAfter">
+        <div class="slide-placeholder">
+          <div class="slide-face">💈</div>
+          <span class="slide-tag">After D. Luxe</span>
+        </div>
+      </div>
+      <div class="slider-labels">
+        <span>BEFORE</span>
+        <span>AFTER</span>
+      </div>
+      <div class="slider-handle" id="sliderHandle">
+        <div class="slider-knob">
+          <svg viewBox="0 0 20 20"><path d="M7 4l-5 6 5 6M13 4l5 6-5 6" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="masonry reveal reveal-delay-3">
+    <div class="masonry-item" style="--ratio:1/1">
+      <div class="masonry-img" style="background:linear-gradient(145deg,#1a1a1a,#111);"><span>💈</span></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">View Look</span></div>
+    </div>
+    <div class="masonry-item" style="--ratio:4/5">
+      <div class="masonry-img" style="background:linear-gradient(145deg,#181510,#100e0a);"><span>✂️</span></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">View Look</span></div>
+    </div>
+    <div class="masonry-item" style="--ratio:3/4">
+      <div class="masonry-img" style="background:linear-gradient(145deg,#121212,#0d0d0d);"><span>🪒</span></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">View Look</span></div>
+    </div>
+    <div class="masonry-item" style="--ratio:1/1">
+      <div class="masonry-img" style="background:linear-gradient(145deg,#191512,#110f0c);"><span>💈</span></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">View Look</span></div>
+    </div>
+    <div class="masonry-item" style="--ratio:5/4">
+      <div class="masonry-img" style="background:linear-gradient(145deg,#161616,#101010);"><span>✂️</span></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">View Look</span></div>
+    </div>
+    <div class="masonry-item" style="--ratio:1/1">
+      <div class="masonry-img" style="background:linear-gradient(145deg,#1a1800,#110f00);"><span>🪒</span></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">View Look</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="section-label reveal" style="justify-content:center">
+    <span class="label-num">04</span>
+    <span>Reserve Your Experience</span>
+  </div>
+  <h2 class="section-title reveal reveal-delay-1" style="text-align:center">Choose <span class="italic">Your Path</span></h2>
+  <div class="gold-line reveal reveal-delay-2" style="margin:28px auto"></div>
+  <p class="booking-sub reveal reveal-delay-2">Three ways in. One elite outcome. Pick your preferred channel and we'll handle the rest.</p>
+
+  <div class="booking-tiles">
+    <a href="sms:+1XXXXXXXXXX" class="booking-tile reveal reveal-delay-1">
+      <div class="tile-icon">📱</div>
+      <div class="tile-title">Text for Availability</div>
+      <p class="tile-desc">The fastest lane. Send a text and lock in your slot within minutes.</p>
+      <span class="tile-arrow">Text Now →</span>
+    </a>
+    <a href="https://instagram.com" target="_blank" class="booking-tile reveal reveal-delay-2">
+      <div class="tile-icon">📸</div>
+      <div class="tile-title">DM on Instagram</div>
+      <p class="tile-desc">Slide into the DMs. See the latest cuts and book your session direct.</p>
+      <span class="tile-arrow">Open IG →</span>
+    </a>
+    <a href="#" class="booking-tile reveal reveal-delay-3">
+      <div class="tile-icon">🗓️</div>
+      <div class="tile-title">Book via App</div>
+      <p class="tile-desc">Select your service, choose your time, and confirm. Done in under 60 seconds.</p>
+      <span class="tile-arrow">Book Now →</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-logo"><span>D.</span> LUXE<br>MOBILE</div>
+      <p class="footer-tagline">"Mastery in Motion. Precision at Your Door."</p>
+      <div class="footer-service-area">
+        <strong>Service Area</strong>
+        Serving [City Name] & Surrounding Areas<br>
+        By Appointment Only · Mobile & On-Location
+      </div>
+      <div class="social-row">
+        <a href="#" class="social-link"><span>IG</span></a>
+        <a href="#" class="social-link"><span>TK</span></a>
+        <a href="#" class="social-link"><span>FB</span></a>
+        <a href="#" class="social-link"><span>YT</span></a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="#about">About D</a></li>
+        <li><a href="#menu">Services</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#booking">Book Now</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="sms:+1XXXXXXXXXX">Text Us</a></li>
+        <li><a href="https://instagram.com" target="_blank">Instagram DM</a></li>
+        <li><a href="#">Booking App</a></li>
+        <li><a href="#">Gift Cards</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 D. Luxe Mobile. All rights reserved.</p>
+    <div class="footer-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Cancellation Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <a href="#booking" class="sticky-btn">
+    <div class="sticky-dot"></div>
+    Book Now — Slots Available
+  </a>
+</div>
+
+<script>
+// --- CURSOR ---
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
+  ring.style.transform = `translate(${mx - 18}px, ${my - 18}px)`;
+});
+document.querySelectorAll('a, button, .menu-card, .booking-tile, .masonry-item, .slider-wrap').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.classList.add('expanded');
+    ring.classList.add('expanded');
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.classList.remove('expanded');
+    ring.classList.remove('expanded');
+  });
+});
+
+// --- NAV SCROLL ---
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// --- REVEAL ON SCROLL ---
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(el => observer.observe(el));
+
+// --- BEFORE/AFTER SLIDER ---
+const sliderWrap = document.getElementById('sliderWrap');
+const sliderAfter = document.getElementById('sliderAfter');
+const sliderHandle = document.getElementById('sliderHandle');
+let dragging = false;
+
+function setSlider(pct) {
+  pct = Math.max(5, Math.min(95, pct));
+  sliderAfter.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+  sliderHandle.style.left = pct + '%';
+}
+setSlider(50);
+
+sliderWrap.addEventListener('mousedown', e => { dragging = true; });
+document.addEventListener('mouseup', () => { dragging = false; });
+document.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  const rect = sliderWrap.getBoundingClientRect();
+  const pct = ((e.clientX - rect.left) / rect.width) * 100;
+  setSlider(pct);
+});
+sliderWrap.addEventListener('touchstart', e => { dragging = true; }, {passive: true});
+document.addEventListener('touchend', () => { dragging = false; });
+document.addEventListener('touchmove', e => {
+  if (!dragging) return;
+  const rect = sliderWrap.getBoundingClientRect();
+  const pct = ((e.touches[0].clientX - rect.left) / rect.width) * 100;
+  setSlider(pct);
+}, {passive: true});
+
+// Animate demo
+let dir = 1, pos = 50;
+const demoInterval = setInterval(() => {
+  if (dragging) return;
+  pos += dir * 0.4;
+  if (pos >= 75) dir = -1;
+  if (pos <= 25) dir = 1;
+  setSlider(pos);
+}, 16);
+
+// --- STICKY CTA ---
+const stickyCta = document.getElementById('stickyCta');
+const heroSection = document.getElementById('hero');
+window.addEventListener('scroll', () => {
+  const heroBottom = heroSection.getBoundingClientRect().bottom;
+  stickyCta.classList.toggle('show', heroBottom < 0);
+});
+
+// --- MARQUEE CLONE ---
+const track = document.getElementById('marquee');
+track.innerHTML += track.innerHTML;
+</script>
+</body>
+</html>
